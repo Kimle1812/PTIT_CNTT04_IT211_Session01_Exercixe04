@@ -1,34 +1,54 @@
-* So sánh SOAP và REST trong bối cảnh công ty tài chính:
-    - Hiệu suất:
-        + SOAP: Giao tiếp dựa trên XML, nặng và tốn tài nguyên hơn. Phù hợp với môi trường
-        yêu cầu độ tin cậy cao hơn tốc độ.
-        + REST: Giao tiếp nhẹ, thường dùng JSON, tốc độ cao, tối ưu cho web/mobile.
-    - Bảo mật:
-        + SOAP: Hỗ trợ chuẩn WS-Security, XML Encryption, SSL, SAML, OAuth,
-        đảm bảo tính toàn vẹn và xác thực dữ liệu.
-        + REST: Dựa vào cơ chế bảo mật tầng HTTP. Đủ mạnh cho ứng dụng
-        người dùng nhưng không đạt mức “enterprise-grade” như SOAP.
-    - Khả năng phát triển:
-        + SOAP: Phù hợp với hệ thống ổn định, ít thay đổi. Mỗi thay đổi cần cập nhật WSDL và cấu trúc XML.
-        + REST: Linh hoạt, dễ mở rộng, dễ thêm endpoint mới, phù hợp với phát triển nhanh.
-    - Độ phức tạp:
-        + SOAP: Cấu trúc chặt chẽ, yêu cầu WSDL, schema, và xử lý XML phức tạp.
-        + REST: Đơn giản, dễ triển khai, chỉ cần HTTP methods (GET, POST, PUT, DELETE)
-    - Khả năng tích hợp:
-        + SOAP: Tốt cho hệ thống doanh nghiệp, có thể tích hợp với các nền tảng ERP, CRM, và hệ thống tài chính khác.
-        + REST: Dễ tích hợp với web, mobile, và microservices hiện đại.
-* Đề xuất sử dụng cho từng hệ thống:
-1. Hệ thống Legacy Core Banking -> SOAP
--> Lý do:
-    - Cần độ tin cậy và tính toàn vẹn dữ liệu cao. SOAP hỗ trợ giao dịch
-    phân tán và đảm bảo tính nhất quán.
-    - Bảo mật cấp doanh nghiệp với WS-Security, phù hợp với yêu cầu tuân thủ chuẩn quốc tế
-    - Tính ổn định: SOAP phù hợp với hệ thống ít thay đổi, nơi mỗi giao dịch phải được
-    xác nhận và ghi nhận chính xác
-    - Khả năng tích hợp: dễ kết nối với các hệ thống ngân hàng khác vốn cũng dùng SOAP
-2. Hệ thống Microservices mới -> REST
--> Lý do:
-    - Hiệu suất cao: REST sử dụng JSON, nhẹ và nhanh, phù hợp với ứng dụng web/mobile có lượng truy cập lớn
-    - Phát triển linh hoạt: dễ mở rộng, dễ thêm endpoint, phù hợp với CI/CD và DevOps
-    - Khả năng mở rộng: REST stateless, dễ scale ngang
-    - Tích hợp dễ dàng: REST tương thích tốt với frontend frameworks, API Gateway, và cloud-native services.
+Phần 1 – Phân tích logic
+*SOAP (Simple Object Access Protocol)
+
+- Ưu điểm
+
+    Hỗ trợ giao dịch phân tán và đảm bảo tính nhất quán dữ liệu (ACID).
+    
+    Có chuẩn bảo mật WS-Security, dễ dàng tích hợp với các quy định nghiêm ngặt trong lĩnh vực tài chính.
+    
+    Định dạng XML chặt chẽ, có schema rõ ràng → dễ kiểm soát dữ liệu.
+    
+    Hỗ trợ nhiều giao thức truyền tải (HTTP, SMTP, FTP).
+
+- Nhược điểm
+
+    Nặng nề, hiệu suất thấp hơn REST.
+    
+    Phát triển phức tạp, khó mở rộng nhanh.
+    
+    Không phù hợp cho hệ thống cần tốc độ và linh hoạt.
+
+*REST (Representational State Transfer)
+
+- Ưu điểm
+
+    Nhẹ, hiệu suất cao, dễ mở rộng.
+    
+    Sử dụng HTTP chuẩn, dễ tích hợp với web/mobile.
+    
+    Hỗ trợ nhiều định dạng dữ liệu (JSON, XML), nhưng JSON phổ biến và nhanh hơn XML.
+    
+    Stateless → dễ scale ngang cho microservices.
+
+- Nhược điểm
+
+    Không có chuẩn bảo mật riêng như WS-Security, thường phải kết hợp OAuth2, JWT.
+    
+    Không hỗ trợ trực tiếp giao dịch phân tán phức tạp.
+    
+    Tính toàn vẹn dữ liệu không mạnh bằng SOAP.
+
+* Kết luận lựa chọn
+
+Legacy Core Banking → SOAP
+
+Vì yêu cầu bảo mật cao, tính toàn vẹn dữ liệu tuyệt đối, hỗ trợ giao dịch phân tán.
+
+SOAP phù hợp với môi trường tài chính truyền thống, tuân thủ chuẩn quốc tế.
+
+Microservices mới → REST
+
+Vì cần tốc độ phát triển nhanh, hiệu suất cao, dễ mở rộng.
+
+REST phù hợp với ứng dụng di động/web, dễ tích hợp với frontend và hệ thống hiện đại.
